@@ -24,8 +24,6 @@ def parse_input(user_input: str) -> tuple[str, list[str]]:
 
 @input_error
 def add_contact(args: list[str], contacts: dict[str, str]) -> str:
-    if len(args) < 2:
-        return "Error: Give me name and phone please."
     name, phone = args
     contacts[name] = phone
     return "Contact added."
@@ -33,22 +31,18 @@ def add_contact(args: list[str], contacts: dict[str, str]) -> str:
 
 @input_error
 def change_contact(args: list[str], contacts: dict[str, str]) -> str:
-    if len(args) < 2:
-        return "Error: Give me name and phone please."
     name, phone = args
     if name in contacts:
         contacts[name] = phone
         return "Contact updated."
     else:
-        return f"Error: Contact '{name}' not found."
+        raise KeyError
 
 
 @input_error
 def show_phone(args: list[str], contacts: dict[str, str]) -> str:
-    if not args:
-        return "Error: Enter user name."
     name = args[0]
-    return contacts.get(name, f"Error: Contact '{name}' not found.")
+    return contacts[name]
 
 
 def show_all(contacts: dict[str, str]) -> str:
